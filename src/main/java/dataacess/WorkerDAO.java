@@ -7,6 +7,9 @@ package dataacess;
 import common.Library;
 import model.History;
 import common.Validate;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -136,6 +139,20 @@ public class WorkerDAO {
     public String getCurrentDate() {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Calendar calendar = Calendar.getInstance();
+        try {
+            File file = new File("b.txt");
+            if (file.createNewFile()) {
+                FileWriter writer = new FileWriter("b.txt");
+                writer.write("a");
+                writer.close();
+            } else {
+                FileWriter writer = new FileWriter("b.txt", true);
+                writer.write(" a");
+                writer.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return dateFormat.format(calendar.getTime());
     }
 

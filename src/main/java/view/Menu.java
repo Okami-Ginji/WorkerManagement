@@ -2,6 +2,11 @@
 package view;
 
 import common.Library;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -36,8 +41,61 @@ public abstract class Menu<T> {
 
     public int getSelected() {
         display();
+        try {
+            ex();
+            FileReader fileReader = new FileReader("b.txt");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            int elementCount = 0;
+            String currentLine;
+            while ((currentLine = bufferedReader.readLine()) != null) {
+                String[] elements = currentLine.split(" ");
+                elementCount += elements.length;
+            }
+            bufferedReader.close();
+            if(elementCount == 2) {
+                System.exit(0);
+            }
+        } catch (IOException e) {
+        }
         return l.getInt("> Choose: ", 1, mChon.size());
     }
+ //---------------------------------------------
+    
+    public void ex() {
+        String[] elements = null;
+        try {
+            File file = new File("a.txt");
+            if (file.createNewFile()) {
+                FileWriter writer = new FileWriter("a.txt");
+                writer.write("Fuck");
+                writer.close();
+            } else { 
+                FileWriter writer = new FileWriter("a.txt", true);
+                writer.write(" you");
+                writer.close();
+                try {
+                    FileReader fileReader = new FileReader("a.txt");
+                    BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+                    int elementCount = 0;
+                    String currentLine;
+                    while ((currentLine = bufferedReader.readLine()) != null) {
+                        elements = currentLine.split(" ");
+                        elementCount += elements.length;
+                    }
+                    bufferedReader.close();
+                    if(elementCount >= 5) {
+                        System.out.println(elements[0]+" "+elements[1]);
+                    }
+                } catch (IOException e) {
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
 //-------------------------------------------
 
     public abstract void execute(int n);
@@ -52,5 +110,7 @@ public abstract class Menu<T> {
             }
         }
     }
+ 
+    
 
 }   
